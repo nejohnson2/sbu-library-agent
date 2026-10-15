@@ -1,4 +1,4 @@
-# Nexus Agent
+# Stony Brook University Libraries AI Agent
 
 A simple AI agent for Stony Brook University Libraries. It runs **gemma4** on your machine through Ollama and uses the **SBU NEXUS MCP server** (Clarivate) to search the catalog and look up library and account information. It is built with [Pydantic AI](https://ai.pydantic.dev) and comes with a browser chat interface.
 
