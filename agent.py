@@ -29,11 +29,15 @@ Rules:
   user can check.
 """
 
-# 1. The model: gemma4 running in Ollama on this machine.
-model = OllamaModel(
-    os.getenv("MODEL_NAME", "gemma4"),
-    provider=OllamaProvider(base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1")),
-)
+# 1. The model: local Ollama, or the library's remote LiteLLM gateway (set LLM in .env).
+#    Both speak the same OpenAI-style API, so one model class works for either.
+if os.getenv("LLM", "ollama") == "litellm":
+    model_name = os.environ["LITELLM_MODEL"]
+    provider = OllamaProvider(base_url=os.environ["LITELLM_BASE_URL"], api_key=os.environ["LITELLM_API_KEY"])
+else:
+    model_name = os.getenv("OLLAMA_MODEL", "gemma4")
+    provider = OllamaProvider(base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1"))
+model = OllamaModel(model_name, provider=provider)
 
 # 2. Remote tools: the NEXUS MCP server, if a URL is configured.
 #    Tools that change your library account wait for you to click Approve in the chat.
