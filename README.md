@@ -94,6 +94,53 @@ This asks a fixed set of questions 3 times each. For each answer it prints the t
 
 To compare models, change `OLLAMA_MODEL` (for example `qwen2.5:7b` or `gpt-oss:20b`) or switch `LLM` in `.env`, and run it again.
 
+## Benchmark: can an open-weight model be trusted about holdings?
+
+The question a patron actually asks is "does the library have this book?", and the failure that matters is a model saying yes when the answer is no. The `benchmark/` folder measures that across local open-weight models, with ground truth that does not depend on any model.
+
+**Design**
+
+- **Ground truth:** 10 titles verified as held and 10 verified as absent, by calling `primo_search` directly (`benchmark/ground_truth.json`, built by `make ground-truth`). The absent titles are invented books with invented authors, because Primo indexes such a large aggregated collection that a real but obscure book can still turn up.
+- **Trials:** every model is asked the same question about every title, `RUNS` times with the seed set to the run number. The agent is the production one (same instructions, same NEXUS tools); only the Ollama model changes. The question asks for a final `VERDICT: HELD / NOT HELD / UNSURE` line so answers can be scored without an LLM judge; a missing line is recorded as `UNPARSED`.
+- **Metrics per model:** hallucination rate (claimed a holding for an absent title), accuracy on held and absent titles, unsure rate, whether `primo_search` was used, whether any tool call was rejected, fabricated links (a record link in the answer that no tool result contained), and latency. Rates come with Wilson 95% intervals.
+
+**Run it**
+
+```bash
+make ground-truth            # once; queries NEXUS, needs the login
+make bench-dev               # smoke test: one model, two titles
+make bench RUNS=3            # full sweep, resumable; hours on a laptop
+make analyze                 # benchmark/results/summary.md
+make plot                    # benchmark/figures/*.png
+```
+
+`MODELS=a,b make bench` restricts the sweep. Raw trials (one JSON line each, including the full answer) are in `benchmark/results/`, which is not committed.
+
+**Results (2026-10-31, 60 trials per model, Apple Silicon laptop)**
+
+![Benchmark results](benchmark/figures/holdings_benchmark.png)
+
+| Model | Trials | Hallucinated (absent titles) | Correct (held) | Correct (absent) | Unsure | Used primo_search | Tool error in trial | Fabricated link | Median latency |
+|---|---|---|---|---|---|---|---|---|---|
+| `qwen3:32b` | 60 | 0% (0/30) | 97% (29/30) | 100% (30/30) | 0% (0/60) | 100% (60/60) | 2% (1/60) | 0% (0/59) | 107 s |
+| `gemma4:26b` | 60 | 0% (0/30) | 93% (28/30) | 100% (30/30) | 0% (0/60) | 100% (60/60) | 98% (59/60) | 0% (0/58) | 40 s |
+| `gpt-oss:20b` | 60 | 0% (0/30) | 93% (28/30) | 97% (29/30) | 0% (0/60) | 98% (59/60) | 13% (8/60) | 0% (0/58) | 14 s |
+| `qwen2.5:7b` | 60 | 0% (0/30) | 57% (17/30) | 97% (29/30) | 2% (1/60) | 83% (50/60) | 30% (18/60) | 0% (0/59) | 4 s |
+| `gemma4:latest` | 60 | 0% (0/30) | 40% (12/30) | 70% (21/30) | 0% (0/60) | 98% (59/60) | 72% (43/60) | 0% (0/36) | 17 s |
+| `llama3.1:latest` | 60 | 3% (1/30) | 23% (7/30) | 23% (7/30) | 0% (0/60) | 83% (50/60) | 50% (30/60) | 0% (0/36) | 4 s |
+| `llama3.2:latest` | 60 | 13% (4/30) | 13% (4/30) | 10% (3/30) | 2% (1/60) | 57% (34/60) | 57% (34/60) | 0% (0/31) | 2 s |
+
+Findings:
+
+- **Hallucinated holdings are rare, but not zero.** Five of the seven models never claimed the library held an invented book. `llama3.1` did it once in 30 and `llama3.2` four times in 30, and the `llama3.2` cases are the worrying kind: the model wrote out a fake `primo_search` result as JSON, complete with a plausible record id and a Primo URL, then concluded `VERDICT: HELD`.
+- **Model size buys error recovery, not first-try correctness.** `gemma4:26b` sent a malformed call on every single trial (the title as a plain string where the NEXUS schema wants `{"terms": [...]}`), read the validation error and fixed it, and ended up 97% accurate. The 6.6 GB `gemma4:latest` made the same first mistake on 38 of 60 trials, then repeated it on the retry often enough that 40% of trials died with no answer at all. The only model that got the schema right on the first call every time was `qwen3:32b`.
+- **The small-model failure mode is silence, not lies.** For the sub-10 GB models, most "wrong" trials are crashed trials (`tool_retries_exceeded`) or answers with no verdict line, not confident wrong answers. `llama3.2` also reached for the wrong tool, calling the PubMed article search for a book in 16 of 60 trials.
+- **Getting the data is not the same as reading it.** `qwen2.5:7b` was fast (4 s median) and never hallucinated, but on 8 of 30 held-title trials it ran a well-formed search, received records marked as physical holdings, and still answered `NOT HELD`. Replaying its exact query against NEXUS confirms the catalog returned the book.
+- **Trust costs time, with one exception.** `qwen3:32b` (97%/100%, zero hallucinations, clean tool use) took 107 s per question on this laptop; `gemma4:26b` reached the same accuracy in 40 s, but only because it spends one round trip per question fixing its own tool call. `gpt-oss:20b` matched them at 93%/97% in 14 s with a mostly correct schema on the first call; its few rejected calls were invented parameters (`location`, `keyword`) rather than wrong shapes, and two trials died because Ollama itself failed to parse the model's tool-call JSON.
+- **No model fabricated a catalog link** when it had real tool results to work from; the fabricated-link check fired zero times across all models.
+
+Caveats: 20 titles and 3 seeded runs per model is a small sample, so read the Wilson intervals, not the point estimates. A handful of trials ended in infrastructure errors rather than model answers: one 5-minute timeout each for `gemma4:26b`, `qwen3:32b` and `llama3.1`, one NEXUS server error, and two Ollama tool-call parse failures for `gpt-oss:20b`. These count as incorrect in the table. The first `gpt-oss:20b` attempt failed entirely because a 13-month-old Ollama blob no longer loaded; re-pulling the model fixed it. Latency is a laptop number and is dominated by model size.
+
 ## Files
 
 | File | Purpose |
@@ -103,6 +150,8 @@ To compare models, change `OLLAMA_MODEL` (for example `qwen2.5:7b` or `gpt-oss:2
 | `app.py` | Web chat interface |
 | `login.py` | Log in and list the NEXUS and PubMed tools from the terminal |
 | `eval.py` | Test questions |
+| `benchmark/` | Holdings benchmark: ground truth, runner, analysis, plots (see above) |
+| `Makefile` | Benchmark pipeline targets |
 | `.env` | Settings (not committed; copy from `.env.example`) |
 
 ## Settings (`.env`)

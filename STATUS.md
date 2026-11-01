@@ -1,30 +1,27 @@
-# Status
+# STATUS
 
-_Last updated: 2026-10-23_
+_Last updated: 2026-10-31_
 
 ## Current state
 
-Working. The agent runs on the library's LiteLLM gateway (`LLM=litellm`, model `ai11-gpt-oss-20b`) and has two MCP servers: SBU NEXUS (catalog and account, OAuth login saved in Keychain) and a local PubMed server (stdio subprocess).
+The agent (Pydantic AI + NEXUS MCP + local PubMed MCP) works end to end with both the LiteLLM gateway model and local Ollama models. The holdings-trust benchmark is **complete**: 7 models x 20 titles x 3 seeded runs = 420 trials. Results, figures and findings are written up in README.md under "Benchmark".
 
 ## Completed this session
 
-- Fixed `.env`: the LiteLLM hostname had a typo (`lbrary.` instead of `library.`), which made every chat request fail.
-- Added the PubMed MCP server ([aeghnnsw/pubmed-mcp](https://github.com/aeghnnsw/pubmed-mcp), cloned at `~/Projects/pubmed-mcp`) as a second toolset in `agent.py`, configured by `PUBMED_MCP_DIR` in `.env`.
-  - Its repo's `setup.sh` installs MCP SDK 2.x, which breaks it; pinned `mcp<2` in that repo's `venv`. The pin is not recorded in that repo, so rerunning its `setup.sh` will break it again.
-  - The agent runs it with the PubMed repo's own `venv/bin/python` (stdio), so no separate process is needed. Its stderr goes to `pubmed-server.log` (gitignored).
-- Added PubMed rules to the agent instructions (search, then summaries; check holdings with `primo_search`).
-- `login.py` now lists tools from both servers; `eval.py` has a PubMed question.
-- README and `.env.example` updated.
-- Verified end to end: "Find three recent PubMed articles on CRISPR for sickle cell disease, then check whether the library has Nature Medicine" used `search_articles` -> `get_article_summaries` -> `primo_search` and answered correctly.
+- Added the local PubMed MCP server (`PUBMED_MCP_DIR`) to the agent; PubMed tools documented in README; `eval.py` and `login.py` cover it.
+- Built `benchmark/` (ground truth, runner, analysis, plots) with a Makefile (`ground-truth`, `bench`, `bench-dev`, `analyze`, `plot`, `clean-results`).
+- Ran the full sweep. Headline: zero hallucinated holdings for 5 of 7 models; `llama3.2` hallucinated 13% of the time and once fabricated a Primo record as JSON. `qwen3:32b`, `gemma4:26b` and `gpt-oss:20b` are all 93%+ accurate; `gpt-oss:20b` is the speed/accuracy sweet spot (14 s). `gemma4:26b` malformed its first tool call on 100% of trials and recovered on 98%. `qwen2.5:7b` received correct catalog records and still said NOT HELD on 8/30 held trials.
+- Figures: `benchmark/figures/holdings_benchmark.{png,svg}`, `benchmark/figures/latency.{png,svg}`. Table: `benchmark/results/summary.md` (results dir is gitignored; figures are not).
 
-## Left to do
+## Known issues / notes
 
-- Run the full `uv run python eval.py` with the PubMed question across models (only the gateway model was tried).
-- Consider `get_article_summaries` returning XML: the model handles it, but a text or JSON return mode in the PubMed server would cut tokens.
-- Optionally add an NCBI API key in `~/Projects/pubmed-mcp/.env` to raise the PubMed rate limit.
-- Git: none of this is committed yet (user handles git).
+- The sweep stalled once overnight when the laptop lid was closed on battery; `caffeinate` cannot prevent clamshell sleep on battery. Keep the machine on AC with the lid open for long runs. The per-trial timeout uses a monotonic clock and does not fire during sleep.
+- The original `gpt-oss:20b` Ollama blob (13 months old) failed with "unsupported tensor ... size overflows"; `ollama pull gpt-oss:20b` fixed it. Two gpt-oss trials still died on Ollama-side tool-call JSON parse errors (HTTP 500).
+- `~/Projects/pubmed-mcp` needs `mcp<2` in its own venv; its `setup.sh` / `requirements.txt` are unpinned and should get `mcp[cli]>=1.4.0,<2`.
+- NEXUS OAuth refresh token expires after a few days; `uv run python login.py` re-authenticates in the browser.
+- Nothing is committed yet (user handles git). Changed/new: `.gitignore`, `README.md`, `STATUS.md`, `pyproject.toml`, `uv.lock`, `Makefile`, `benchmark/` (incl. `ground_truth.json` and `figures/`).
 
-## Known issues
+## Next steps
 
-- Model quality on vague catalog questions is uneven (e.g. asked about "Melville Library" hours, `ai11-gpt-oss-20b` looped on `alma_get_libraries` and gave up). Not a connection problem.
-- `pubmed-server.log` fills with a long but harmless pydantic validation warning each time the agent connects (MCP 1.x server vs FastMCP 4 client `server/discover` probe).
+- Write the LinkedIn post from the README findings (figure: `benchmark/figures/holdings_benchmark.png`).
+- Optional follow-ups: more titles / runs to tighten the Wilson intervals; test whether a schema example in the instructions fixes gemma4's first-call failures; add the LiteLLM gateway model as a comparison row.

@@ -1,0 +1,697 @@
+{
+ "built_at": "2026-10-31T01:39:32+00:00",
+ "method": "primo_search by title + author surname, resources_types=['books']; held = >=1 record whose title matches; absent = zero results",
+ "n_held": 10,
+ "n_absent": 10,
+ "rejected": [],
+ "titles": [
+  {
+   "title": "Pattern Recognition and Machine Learning",
+   "author": "Christopher Bishop",
+   "expected": "held",
+   "nexus_total": 2,
+   "records": [
+    {
+     "record_id": "alma990012855730204856",
+     "title": "Pattern recognition and machine learning",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990012855730204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991041356189704801",
+     "title": "Pattern recognition and machine learning",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991041356189704801&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T01"
+  },
+  {
+   "title": "The Structure of Scientific Revolutions",
+   "author": "Thomas Kuhn",
+   "expected": "held",
+   "nexus_total": 14,
+   "records": [
+    {
+     "record_id": "alma990009477440204856",
+     "title": "The structure of scientific revolutions",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990009477440204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990004831950204856",
+     "title": "The structure of scientific revolutions",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990004831950204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990006274770204856",
+     "title": "The structure of scientific revolutions",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990006274770204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991045377509704801",
+     "title": "The structure of scientific revolutions",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991045377509704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991025293219704801",
+     "title": "The structure of scientific revolutions",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991025293219704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991052002599704801",
+     "title": "The structure of scientific revolutions.",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991052002599704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991007515179704801",
+     "title": "Kuhn's The structure of scientific revolutions : a reader's guide",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991007515179704801&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T02"
+  },
+  {
+   "title": "Deep Learning",
+   "author": "Ian Goodfellow",
+   "expected": "held",
+   "nexus_total": 2,
+   "records": [
+    {
+     "record_id": "alma990017013190204856",
+     "title": "Deep learning",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990017013190204856&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T03"
+  },
+  {
+   "title": "Artificial Intelligence: A Modern Approach",
+   "author": "Stuart Russell",
+   "expected": "held",
+   "nexus_total": 6,
+   "records": [
+    {
+     "record_id": "alma990010940360204856",
+     "title": "Artificial intelligence : a modern approach",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990010940360204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990009375230204856",
+     "title": "Artificial intelligence : a modern approach",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990009375230204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma9918070655904856",
+     "title": "Artificial intelligence : a modern approach",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma9918070655904856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991017431569704801",
+     "title": "Artificial intelligence : a modern approach",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991017431569704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991036003809704801",
+     "title": "Artificial intelligence : a modern approach",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991036003809704801&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T04"
+  },
+  {
+   "title": "The Elements of Statistical Learning",
+   "author": "Trevor Hastie",
+   "expected": "held",
+   "nexus_total": 3,
+   "records": [
+    {
+     "record_id": "alma990016838530204856",
+     "title": "The elements of statistical learning : data mining, inference, and prediction",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990016838530204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990005318240204833",
+     "title": "The elements of statistical learning : data mining, inference, and prediction",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990005318240204833&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991036130599704801",
+     "title": "The elements of statistical learning : data mining, inference, and prediction : with 200 full-color illustrations",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991036130599704801&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T05"
+  },
+  {
+   "title": "Silent Spring",
+   "author": "Rachel Carson",
+   "expected": "held",
+   "nexus_total": 39,
+   "records": [
+    {
+     "record_id": "alma990005212040204856",
+     "title": "Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990005212040204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990011903650204856",
+     "title": "Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990011903650204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991028889509704801",
+     "title": "Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991028889509704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990000067210204831",
+     "title": "Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990000067210204831&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991009531079704801",
+     "title": "Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991009531079704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991001440209704801",
+     "title": "Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991001440209704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991001569929704801",
+     "title": "Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991001569929704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990000174380304811",
+     "title": "Silent spring.",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990000174380304811&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991004484549704801",
+     "title": "Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991004484549704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991029122889704801",
+     "title": "Silent spring : the view from 1987",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991029122889704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991049222419704801",
+     "title": "Wild reckoning : an anthology provoked by Rachel Carson's Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991049222419704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991023682349704801",
+     "title": "The environment in Rachel Carson's Silent spring",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991023682349704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991042811129704801",
+     "title": "Silent spring & other writings on the environment",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991042811129704801&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T06"
+  },
+  {
+   "title": "On the Origin of Species",
+   "author": "Charles Darwin",
+   "expected": "held",
+   "nexus_total": 147,
+   "records": [
+    {
+     "record_id": "alma9917993999304856",
+     "title": "On the Origin of Species",
+     "is_physical": false,
+     "is_electronic": true,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma9917993999304856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "cdi_hathitrust_hathifiles_pst_000055166232",
+     "title": "On the origin of species / by Charles Darwin, with introductions, notes, and illustrations",
+     "is_physical": false,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=cdi_hathitrust_hathifiles_pst_000055166232&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990002750840204856",
+     "title": "On the origin of species by means of natural selection, or, The preservation of favored races in the struggle for life",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990002750840204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "cdi_hathitrust_hathifiles_aeu_ark_13960_t1qf9xz06",
+     "title": "On the origin of species by means of natural selection, or, The preservation of favoured races in the struggle for life by Charles Darwin",
+     "is_physical": false,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=cdi_hathitrust_hathifiles_aeu_ark_13960_t1qf9xz06&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "cdi_hathitrust_hathifiles_osu_32435064736655",
+     "title": "The foundations of The origin of species, a sketch written in 1842. Edited by Francis Darwin",
+     "is_physical": false,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=cdi_hathitrust_hathifiles_osu_32435064736655&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990013118230204856",
+     "title": "On the origin of species, 1859.",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990013118230204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990001767430204856",
+     "title": "On the origin of species by means of natural selection",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990001767430204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990006701090204856",
+     "title": "On the origin of species : a facsimile of the first edition",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990006701090204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "cdi_hathitrust_hathifiles_uva_x001448803",
+     "title": "The Foundations of the Origin of species; two essays written in 1842 and 1844, by Charles Darwin. Edited by his son Francis Darwin. Cambridge, University Press, 1909",
+     "is_physical": false,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=cdi_hathitrust_hathifiles_uva_x001448803&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990011541750204856",
+     "title": "On the origin of species by means of natural selection, or, the preservation of favoured races in the struggle for life",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990011541750204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "cdi_hathitrust_hathifiles_uva_x006043486",
+     "title": "The origin of species by means of natural selection : or, The preservation of favored races in the struggle for life / by Charles Darwin",
+     "is_physical": false,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=cdi_hathitrust_hathifiles_uva_x006043486&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990011541920204856",
+     "title": "On the origin of species by means of natural selection, or, The preservation of favoured races in the struggle for life",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990011541920204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "cdi_hathitrust_hathifiles_osu_32435086555190",
+     "title": "The origin of species by means of natural selection; or, The preservation of favored races in the struggle for life and The descent of man and selection in relation to sex / by Charles Darwin",
+     "is_physical": false,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=cdi_hathitrust_hathifiles_osu_32435086555190&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990004367150204856",
+     "title": "On the origin of species by means of natural selection : or, The preservation of favored races in the struggle for life",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990004367150204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "cdi_hathitrust_hathifiles_cub_p201032702005",
+     "title": "On the origin of species by means of natural selection, or The preservation of favored races in the struggle for life",
+     "is_physical": false,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=cdi_hathitrust_hathifiles_cub_p201032702005&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990004112200204856",
+     "title": "A concordance to Darwin's Origin of species, first edition",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990004112200204856&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T07"
+  },
+  {
+   "title": "Beloved",
+   "author": "Toni Morrison",
+   "expected": "held",
+   "nexus_total": 29,
+   "records": [
+    {
+     "record_id": "alma991052886989704801",
+     "title": "Beloved",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991052886989704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991004615239704801",
+     "title": "Beloved",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991004615239704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991056789149704801",
+     "title": "Beloved",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991056789149704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma9936897482904802",
+     "title": "BELOVED",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma9936897482904802&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991921982704839",
+     "title": "Beloved",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991921982704839&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990009138940204856",
+     "title": "Beloved : a novel",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990009138940204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991038988929704801",
+     "title": "The bluest eye : Beloved ; Jazz",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991038988929704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991059676155604801",
+     "title": "Beloved : a novel",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991059676155604801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991045468679704801",
+     "title": "Beloved : a novel",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991045468679704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991025935459704801",
+     "title": "Beloved : a novel",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991025935459704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991047564459704801",
+     "title": "Beloved : a novel",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991047564459704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991001572199704801",
+     "title": "Beloved : [a novel]",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991001572199704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991007349389704801",
+     "title": "Beloved community : the sisterhood of homeless women in poetry.",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991007349389704801&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T08"
+  },
+  {
+   "title": "The Double Helix",
+   "author": "James Watson",
+   "expected": "held",
+   "nexus_total": 16,
+   "records": [
+    {
+     "record_id": "alma990010936150204856",
+     "title": "Genes, girls, and Gamow : after the double helix",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990010936150204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma990003644720204856",
+     "title": "The double helix : a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990003644720204856&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991042966789704801",
+     "title": "Nature : the double helix, 50 years.",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991042966789704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991036403709704801",
+     "title": "The double helix : a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991036403709704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991033383549704801",
+     "title": "The double helix : a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991033383549704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991042314089704801",
+     "title": "Genes, girls, and Gamow : after the Double helix",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991042314089704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991034423179704801",
+     "title": "The double helix : a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991034423179704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991042014769704801",
+     "title": "The double helix : a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991042014769704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991035692919704801",
+     "title": "The double helix: a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991035692919704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991003540059704801",
+     "title": "The double helix : a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991003540059704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991016229949704801",
+     "title": "The double helix : a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991016229949704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991019976679704801",
+     "title": "The double helix : a personal account of the discovery of the structure of DNA",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991019976679704801&vid=01SUNY_STB:01SUNY_STB"
+    },
+    {
+     "record_id": "alma991028049209704801",
+     "title": "The annotated and illustrated double helix",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma991028049209704801&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T09"
+  },
+  {
+   "title": "Thinking, Fast and Slow",
+   "author": "Daniel Kahneman",
+   "expected": "held",
+   "nexus_total": 1,
+   "records": [
+    {
+     "record_id": "alma990016545110204856",
+     "title": "Thinking, fast and slow",
+     "is_physical": true,
+     "is_electronic": false,
+     "link": "https://search.library.stonybrook.edu/discovery/fulldisplay?docid=alma990016545110204856&vid=01SUNY_STB:01SUNY_STB"
+    }
+   ],
+   "id": "T10"
+  },
+  {
+   "title": "The Lighthouse at Mariner's Reach",
+   "author": "Elena Thorvald",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T11"
+  },
+  {
+   "title": "Quantum Gardening for Beginners",
+   "author": "Harold Pembrook",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T12"
+  },
+  {
+   "title": "A Field Guide to the Moths of Stony Brook Harbor",
+   "author": "Margaret Ashcombe",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T13"
+  },
+  {
+   "title": "Cartography of Forgotten Rivers",
+   "author": "Tobias Wrenfield",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T14"
+  },
+  {
+   "title": "The Tidewriter of Ashgrove",
+   "author": "Corinne Valdane",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T15"
+  },
+  {
+   "title": "Statistical Mechanics of Beekeeping",
+   "author": "Rufus Oyelaran",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T16"
+  },
+  {
+   "title": "Letters from the Salt Observatory",
+   "author": "Priya Nandakumar-Hale",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T17"
+  },
+  {
+   "title": "The Nine Bridges of Kessling",
+   "author": "Anselm Durward",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T18"
+  },
+  {
+   "title": "Migratory Patterns of the Blue Lantern Crab",
+   "author": "Felicity Okonkwo-Marsh",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T19"
+  },
+  {
+   "title": "An Introduction to Lunar Agronomy",
+   "author": "Desmond Caldwell-Reyes",
+   "expected": "absent",
+   "nexus_total": 0,
+   "records": [],
+   "id": "T20"
+  }
+ ]
+}

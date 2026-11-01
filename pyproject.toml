@@ -4,8 +4,10 @@ version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
     "keyring>=25.7.0",
+    "matplotlib>=3.11.2",
     "pydantic-ai-slim[mcp,openai]>=2.55.0",
     "python-dotenv>=1.2.4",
+    "tqdm>=4.70.1",
     "uvicorn>=0.54.0",
     "websockets>=17.2",
 ]
