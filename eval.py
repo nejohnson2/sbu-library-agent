@@ -7,24 +7,27 @@ from pydantic_ai.messages import ToolCallPart
 
 from agent import agent
 
-# (question, tool we expect it to use; None = should answer without MCP tools)
+# (question, tool we expect it to use; None = should answer without NEXUS tools)
 QUESTIONS = [
     ("Find books about marine biology", "primo_search"),
     ("When is the main library open today?", "alma_get_opening_hours"),
     ("What books do I have checked out?", "alma_get_user_loans"),
     ("Do I owe any library fines?", "alma_get_user_fees"),
-    ("Find recent PubMed articles on CRISPR gene editing in sickle cell disease", "search_articles"),
     ("Hi, what can you do?", None),
 ]
 RUNS = 3  # the model is a bit random, so ask each question more than once
 
 
 async def main():
-    async with agent:  # connect to NEXUS and PubMed once for all questions
+    async with agent:  # connect to NEXUS once for all questions
         for question, expected in QUESTIONS:
-            print(f"\n=== {question}   (expected: {expected or 'no MCP tool'})")
+            print(f"\n=== {question}   (expected: {expected or 'no NEXUS tool'})")
             for run in range(1, RUNS + 1):
-                result = await agent.run(question)
+                try:
+                    result = await agent.run(question)
+                except Exception as e:  # e.g. a tool kept failing; report it and keep going
+                    print(f"  run {run}: FAIL  {type(e).__name__}: {str(e)[:200]}")
+                    continue
                 calls = [p for m in result.all_messages() for p in m.parts if isinstance(p, ToolCallPart)]
                 used = [c.tool_name for c in calls]
                 ok = expected in used if expected else all(name == "current_time" for name in used)

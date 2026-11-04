@@ -3,7 +3,8 @@
 Each trial asks the production agent's question (same instructions and tools as the chat) with a
 different local Ollama model, records the tools it called, any tool errors, its VERDICT line,
 and whether the record links it cited actually came from a tool result. One JSON line per trial
-is appended to results/<model>.jsonl, so an interrupted run resumes where it stopped.
+is appended to results/<model>.jsonl, so an interrupted run resumes where it stopped; trials that
+failed for infrastructure reasons (timeout, Ollama/HTTP error) are run again on resume.
 
 Run with: uv run python -m benchmark.run [--models a,b] [--runs 3] [--dev]
 """
@@ -19,7 +20,7 @@ from contextlib import AsyncExitStack
 from datetime import datetime, timezone
 
 from pydantic_ai import Agent, DeferredToolRequests, capture_run_messages
-from pydantic_ai.exceptions import UnexpectedModelBehavior, UsageLimitExceeded
+from pydantic_ai.exceptions import ModelAPIError, UnexpectedModelBehavior, UsageLimitExceeded
 from pydantic_ai.messages import RetryPromptPart, ToolCallPart, ToolReturnPart
 from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.providers.ollama import OllamaProvider
@@ -28,12 +29,12 @@ from pydantic_ai.usage import UsageLimits
 from tqdm import tqdm
 
 from agent import INSTRUCTIONS, current_time, today_is, toolsets
-from benchmark.common import DEFAULT_MODELS, GROUND_TRUTH, PROMPT, RESULTS_DIR, setup_logging, slug
+from benchmark.common import DEFAULT_MODELS, GROUND_TRUTH, PROMPT, RESULTS_DIR, is_infra_failure, setup_logging, slug
 
 log = setup_logging("bench", RESULTS_DIR / "run.log")
 
 VERDICT_RE = re.compile(r"VERDICT:\s*(HELD|NOT HELD|UNSURE)", re.IGNORECASE)
-DOCID_RE = re.compile(r"docid=(alma\d+)")
+DOCID_RE = re.compile(r"docid=([A-Za-z0-9_]+)")
 EXPECTED_VERDICT = {"held": "HELD", "absent": "NOT HELD"}
 
 
@@ -106,8 +107,10 @@ async def run_trial(agent: Agent, title: dict, run: int, timeout: float) -> dict
                 output = result.output
             usage = result.usage() if callable(result.usage) else result.usage  # method in older versions, attribute now
             rec.update(requests=usage.requests, input_tokens=usage.input_tokens, output_tokens=usage.output_tokens)
-        except asyncio.TimeoutError:
+        except asyncio.TimeoutError:  # must come before OSError: TimeoutError is an OSError
             rec["status"] = "timeout"
+        except (ModelAPIError, OSError) as e:  # Ollama/HTTP or network failure, not the model's answer
+            rec["status"], rec["error"] = "infra_error", f"{type(e).__name__}: {e}"[:300]
         except UsageLimitExceeded as e:
             rec["status"], rec["error"] = "limit", str(e)[:300]
         except UnexpectedModelBehavior as e:
@@ -170,7 +173,7 @@ async def main():
     log.info("models=%s titles=%d runs=%d timeout=%ss", models, len(titles), runs, args.timeout)
 
     async with AsyncExitStack() as stack:
-        for ts in toolsets:  # connect to NEXUS (and PubMed) once for the whole sweep
+        for ts in toolsets:  # connect to NEXUS once for the whole sweep
             await stack.enter_async_context(ts)
 
         for model_name in models:
@@ -180,7 +183,8 @@ async def main():
                 for line in out_path.read_text().splitlines():
                     if line.strip():
                         r = json.loads(line)
-                        done.add((r["title_id"], r["run"]))
+                        if not is_infra_failure(r):  # infrastructure failures are retried
+                            done.add((r["title_id"], r["run"]))
             todo = [(t, r) for t in titles for r in range(1, runs + 1) if (t["id"], r) not in done]
             log.info("%s: %d trials to run (%d already done)", model_name, len(todo), len(done))
             if not todo:

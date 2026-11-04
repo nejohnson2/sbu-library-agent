@@ -65,11 +65,11 @@ def rates_figure(summary: dict, order: list[str]):
         _style(ax)
     axes[0].set_yticks(y, order)
     axes[0].tick_params(axis="y", labelcolor=INK)
-    n = summary[order[0]]["n_trials"]
+    n = max(s["n_trials"] + s.get("infra_failures", 0) for s in summary.values())  # trials attempted per model
     fig.text(0.01, 1 - 0.32 / height, "Can an open-weight model be trusted about library holdings?",
              ha="left", va="center", fontsize=13, color=INK, fontweight="bold")
     fig.text(0.01, 1 - 0.68 / height, f"Same agent, instructions and NEXUS tools; only the model changes. "
-             f"{n} trials per model (10 held + 10 absent titles, seeded runs). Bars show rates with Wilson 95% intervals.",
+             f"{n} trials per model (10 held + 10 absent titles, seeded runs). Bars show rates with Wilson 95% intervals; infrastructure failures excluded.",
              ha="left", va="center", fontsize=9, color=INK_2)
     fig.tight_layout(rect=(0, 0, 1, 1 - header_in / height))
     return fig

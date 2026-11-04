@@ -1,5 +1,7 @@
 .env
 .venv/
 __pycache__/
-pubmed-server.log
 benchmark/results/
+.DS_Store
+nexus_tools.json
+fidelity/results/

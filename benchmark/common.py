@@ -30,6 +30,14 @@ PROMPT = (
 )
 
 
+def is_infra_failure(trial: dict) -> bool:
+    """True when a trial failed for reasons outside the model: a timeout (e.g. the laptop slept)
+    or an Ollama/HTTP/network error. These are retried on resume and left out of the accuracy
+    figures. The error-prefix check also catches trials recorded before this status existed."""
+    error = trial.get("error") or ""
+    return trial["status"] in ("timeout", "infra_error") or error.startswith(("ModelHTTPError", "ModelAPIError"))
+
+
 def slug(model: str) -> str:
     """'gpt-oss:20b' -> 'gpt-oss-20b' (safe for file names)."""
     return re.sub(r"[^a-z0-9]+", "-", model.lower()).strip("-")

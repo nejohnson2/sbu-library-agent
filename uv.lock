@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.13"
 resolution-markers = [
     "python_full_version >= '3.15'",
@@ -1064,31 +1064,6 @@ wheels = [
 ]
 
 [[package]]
-name = "nexus-testing"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "keyring" },
-    { name = "matplotlib" },
-    { name = "pydantic-ai-slim", extra = ["mcp", "openai"] },
-    { name = "python-dotenv" },
-    { name = "tqdm" },
-    { name = "uvicorn" },
-    { name = "websockets" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "keyring", specifier = ">=25.7.0" },
-    { name = "matplotlib", specifier = ">=3.11.2" },
-    { name = "pydantic-ai-slim", extras = ["mcp", "openai"], specifier = ">=2.55.0" },
-    { name = "python-dotenv", specifier = ">=1.2.4" },
-    { name = "tqdm", specifier = ">=4.70.1" },
-    { name = "uvicorn", specifier = ">=0.54.0" },
-    { name = "websockets", specifier = ">=17.2" },
-]
-
-[[package]]
 name = "numpy"
 version = "2.5.4"
 source = { registry = "https://pypi.org/simple" }
@@ -1753,6 +1728,31 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/af/9e/418094adaee6b056ce199051b255448ed872829051e341b2294c80da0977/rpds_py-2026.9.1-cp315-cp315t-musllinux_1_2_x86_64.whl", hash = "sha256:1c2d1f6da5128eabf34e963d7163a818846075a52568250d006c4c953b40f903", size = 582764, upload-time = "2026-10-04T16:31:36.665Z" },
     { url = "https://files.pythonhosted.org/packages/3d/9b/1698ebf6b840ddfe8b472198abbed6ace35c6e398faeecd6c47dae742a4e/rpds_py-2026.9.1-cp315-cp315t-win32.whl", hash = "sha256:5c6ee90dee3e85e055ddfd502d611643d9b0fd94c818220bda84ec3dacd9b27b", size = 203795, upload-time = "2026-10-04T16:31:38.53Z" },
     { url = "https://files.pythonhosted.org/packages/8a/e2/91f70d804c61f8eac39a417e82aa1024f655ab9e8bdd7393b196242bc41b/rpds_py-2026.9.1-cp315-cp315t-win_amd64.whl", hash = "sha256:fe5ad0664ec772b02c45859041aa17655709cced7a31005817fbbbd988c25567", size = 223037, upload-time = "2026-10-04T16:31:40.468Z" },
+]
+
+[[package]]
+name = "sbu-library-agent"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "keyring" },
+    { name = "matplotlib" },
+    { name = "pydantic-ai-slim", extra = ["mcp", "openai"] },
+    { name = "python-dotenv" },
+    { name = "tqdm" },
+    { name = "uvicorn" },
+    { name = "websockets" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "keyring", specifier = ">=25.7.0" },
+    { name = "matplotlib", specifier = ">=3.11.2" },
+    { name = "pydantic-ai-slim", extras = ["mcp", "openai"], specifier = ">=2.55.0" },
+    { name = "python-dotenv", specifier = ">=1.2.4" },
+    { name = "tqdm", specifier = ">=4.70.1" },
+    { name = "uvicorn", specifier = ">=0.54.0" },
+    { name = "websockets", specifier = ">=17.2" },
 ]
 
 [[package]]

@@ -8,9 +8,9 @@ Run with: uv run python -m benchmark.analyze
 import json
 import math
 import statistics
-from collections import defaultdict
+from collections import Counter
 
-from benchmark.common import RESULTS_DIR, setup_logging
+from benchmark.common import RESULTS_DIR, is_infra_failure, setup_logging
 
 log = setup_logging("analyze")
 
@@ -31,13 +31,17 @@ def rate(k: int, n: int) -> dict:
     return {"k": k, "n": n, "rate": p, "ci_low": lo, "ci_high": hi}
 
 
-def summarize(trials: list[dict]) -> dict:
+def summarize(all_trials: list[dict]) -> dict:
+    # Trials that failed for infrastructure reasons say nothing about the model: count them, but
+    # leave them out of every rate below.
+    trials = [t for t in all_trials if not is_infra_failure(t)]
     held = [t for t in trials if t["expected"] == "held"]
     absent = [t for t in trials if t["expected"] == "absent"]
     ok = [t for t in trials if t["status"] == "ok"]
     lat = [t["latency_s"] for t in ok]
     return {
         "n_trials": len(trials),
+        "infra_failures": len(all_trials) - len(trials),
         "completed": rate(len(ok), len(trials)),
         "accuracy_all": rate(sum(t["correct"] for t in trials), len(trials)),
         "accuracy_held": rate(sum(t["correct"] for t in held), len(held)),
@@ -49,7 +53,7 @@ def summarize(trials: list[dict]) -> dict:
         "clean_tool_use": rate(sum(t["n_tool_calls"] > 0 and t["n_tool_errors"] == 0 for t in trials), len(trials)),
         "any_tool_error": rate(sum(t["n_tool_errors"] > 0 for t in trials), len(trials)),
         "fabricated_link": rate(sum(t["fabricated_links"] > 0 for t in ok), len(ok)),
-        "status_counts": dict(sorted(defaultdict(int, {s: sum(t["status"] == s for t in trials) for s in {t["status"] for t in trials}}).items())),
+        "status_counts": dict(sorted(Counter(t["status"] for t in all_trials).items())),
         "latency_median_s": statistics.median(lat) if lat else math.nan,
         "latency_p25_s": statistics.quantiles(lat, n=4)[0] if len(lat) >= 2 else math.nan,
         "latency_p75_s": statistics.quantiles(lat, n=4)[2] if len(lat) >= 2 else math.nan,
@@ -71,7 +75,9 @@ def main():
         raise SystemExit(f"No results in {RESULTS_DIR}. Run `make bench` first.")
     summary = {}
     for f in files:
-        trials = [json.loads(l) for l in f.read_text().splitlines() if l.strip()]
+        rows = [json.loads(l) for l in f.read_text().splitlines() if l.strip()]
+        # a retried trial appears more than once; keep its latest result
+        trials = list({(r["title_id"], r["run"]): r for r in rows}.values())
         if not trials:
             continue
         model = trials[0]["model"]
@@ -82,14 +88,14 @@ def main():
 
     order = sorted(summary, key=lambda m: (summary[m]["hallucination"]["rate"] if not math.isnan(summary[m]["hallucination"]["rate"]) else 9, -summary[m]["accuracy_all"]["rate"]))
     lines = [
-        "| Model | Trials | Hallucinated (absent titles) | Correct (held) | Correct (absent) | Unsure | Used primo_search | Tool error in trial | Fabricated link | Median latency |",
-        "|---|---|---|---|---|---|---|---|---|---|",
+        "| Model | Trials | Hallucinated (absent titles) | Correct (held) | Correct (absent) | Unsure | Used primo_search | Tool error in trial | Fabricated link | Median latency | Infra failures (excluded) |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for m in order:
         s = summary[m]
         lines.append(
             f"| `{m}` | {s['n_trials']} | {pct(s['hallucination'])} | {pct(s['accuracy_held'])} | {pct(s['accuracy_absent'])} | "
-            f"{pct(s['unsure'])} | {pct(s['used_primo'])} | {pct(s['any_tool_error'])} | {pct(s['fabricated_link'])} | {secs(s['latency_median_s'])} |"
+            f"{pct(s['unsure'])} | {pct(s['used_primo'])} | {pct(s['any_tool_error'])} | {pct(s['fabricated_link'])} | {secs(s['latency_median_s'])} | {s['infra_failures']} |"
         )
     md = "\n".join(lines) + "\n"
     (RESULTS_DIR / "summary.md").write_text(md)

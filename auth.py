@@ -21,7 +21,12 @@ def make_auth(mcp_url: str) -> OAuth:
     # Workaround for an MCP library bug: it only learns the real token URL during a full
     # login, so refreshing a saved token in a new process goes to the wrong address.
     # Looking the settings up here lets the refresh work without logging in again.
-    auth.context.oauth_metadata = fetch_oauth_metadata(mcp_url)
+    # If the lookup fails (offline, server down), start anyway instead of crashing or hanging;
+    # NEXUS requests then fail until the server is reachable again.
+    try:
+        auth.context.oauth_metadata = fetch_oauth_metadata(mcp_url)
+    except Exception as e:
+        print(f"Warning: could not reach the NEXUS login server ({e}).")
     return auth
 
 
@@ -29,8 +34,8 @@ def fetch_oauth_metadata(mcp_url: str) -> OAuthMetadata:
     """Find the server's OAuth settings (token URL etc.) using the standard MCP discovery steps."""
     url = urlsplit(mcp_url)
     origin = f"{url.scheme}://{url.netloc}"
-    resource = json.load(urlopen(f"{origin}/.well-known/oauth-protected-resource{url.path}"))
+    resource = json.load(urlopen(f"{origin}/.well-known/oauth-protected-resource{url.path}", timeout=10))
     issuer_path = urlsplit(resource["authorization_servers"][0]).path
     return OAuthMetadata.model_validate_json(
-        urlopen(f"{origin}/.well-known/oauth-authorization-server{issuer_path}").read()
+        urlopen(f"{origin}/.well-known/oauth-authorization-server{issuer_path}", timeout=10).read()
     )

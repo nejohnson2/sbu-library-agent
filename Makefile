@@ -4,7 +4,7 @@
 RUNS ?= 3
 MODELS ?= gemma4:latest,gemma4:26b,gpt-oss:20b,qwen3:32b,qwen2.5:7b,llama3.1:latest,llama3.2:latest
 
-.PHONY: all ground-truth bench bench-dev analyze plot clean-results
+.PHONY: all ground-truth bench bench-dev analyze plot clean-results fidelity
 
 all: ground-truth bench analyze plot
 
@@ -25,3 +25,6 @@ plot:                ## figures from the summary -> benchmark/figures/
 
 clean-results:       ## delete trial results (keeps ground truth and figures)
 	rm -rf benchmark/results
+
+fidelity:            ## search-fidelity traces: all questions x RUNS, local model -> fidelity/results/
+	uv run python -m fidelity.run --runs $(RUNS)

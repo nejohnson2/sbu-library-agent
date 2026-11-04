@@ -1,0 +1,67 @@
+{
+ "about": "Chatbot-style questions for tracing how the agent turns a question into primo_search calls and how it reports the results. Known-item questions use titles from benchmark/ground_truth.json (gt_id), so held/absent is already verified. reference_args is a hand-written, correctly shaped primo_search call for the same intent, run without the model as a baseline; null when the question has no single right search (topics, reading lists).",
+ "version": 1,
+ "questions": [
+  {"id": "Q01", "category": "known_item", "gt_id": "T06", "question": "Does the library have Silent Spring by Rachel Carson?",
+   "reference_args": {"title": {"terms": ["Silent Spring"]}, "author": {"terms": ["Carson"]}}},
+  {"id": "Q02", "category": "known_item", "gt_id": "T09", "question": "Can I borrow The Double Helix by James Watson from Stony Brook?",
+   "reference_args": {"title": {"terms": ["The Double Helix"]}, "author": {"terms": ["Watson"]}}},
+  {"id": "Q03", "category": "known_item", "gt_id": "T10", "question": "Is Thinking, Fast and Slow by Daniel Kahneman in the library?",
+   "reference_args": {"title": {"terms": ["Thinking, Fast and Slow"]}, "author": {"terms": ["Kahneman"]}}},
+  {"id": "Q04", "category": "known_item", "gt_id": "T07", "question": "I need a copy of Darwin's On the Origin of Species for my biology class. Do you have it?",
+   "reference_args": {"title": {"terms": ["On the Origin of Species"]}, "author": {"terms": ["Darwin"]}}},
+
+  {"id": "Q05", "category": "messy_citation", "gt_id": "T02", "question": "Kuhn, T. S. (1962). The structure of scientific revolutions. University of Chicago Press. Can I get this?",
+   "reference_args": {"title": {"terms": ["The Structure of Scientific Revolutions"]}, "author": {"terms": ["Kuhn"]}}},
+  {"id": "Q06", "category": "messy_citation", "gt_id": "T05", "question": "Hastie T, Tibshirani R, Friedman J. The elements of statistical learning: data mining, inference, and prediction. 2nd ed. New York: Springer; 2009. is this available?",
+   "reference_args": {"title": {"terms": ["The Elements of Statistical Learning"]}, "author": {"terms": ["Hastie"]}}},
+  {"id": "Q07", "category": "messy_citation", "gt_id": "T01", "question": "my syllabus says: Bishop, C.M. Pattern Recognition & Machine Learning (Springer 2006). where can i find it",
+   "reference_args": {"title": {"terms": ["Pattern Recognition and Machine Learning"]}, "author": {"terms": ["Bishop"]}}},
+
+  {"id": "Q08", "category": "partial_or_misspelled", "gt_id": "T10", "question": "that book by kahneman about fast and slow thinking, do you have it",
+   "reference_args": {"title": {"terms": ["Thinking, Fast and Slow"]}, "author": {"terms": ["Kahneman"]}}},
+  {"id": "Q09", "category": "partial_or_misspelled", "gt_id": "T03", "question": "goodfellow deep learning textbook?",
+   "reference_args": {"title": {"terms": ["Deep Learning"]}, "author": {"terms": ["Goodfellow"]}}},
+  {"id": "Q10", "category": "partial_or_misspelled", "gt_id": "T06", "question": "Do you have Silent Springs by Rachael Carsen?",
+   "reference_args": {"title": {"terms": ["Silent Spring"]}, "author": {"terms": ["Carson"]}}},
+
+  {"id": "Q11", "category": "edition", "gt_id": "T04", "question": "I need the 4th edition of Russell and Norvig's Artificial Intelligence: A Modern Approach. Does the library have that edition?",
+   "reference_args": {"title": {"terms": ["Artificial Intelligence: A Modern Approach"]}, "author": {"terms": ["Russell"]}}},
+  {"id": "Q12", "category": "edition", "gt_id": "T05", "question": "Is the second edition of The Elements of Statistical Learning available?",
+   "reference_args": {"title": {"terms": ["The Elements of Statistical Learning"]}, "author": {"terms": ["Hastie"]}}},
+
+  {"id": "Q13", "category": "absent", "gt_id": "T11", "question": "Does the library have The Lighthouse at Mariner's Reach by Elena Thorvald?",
+   "reference_args": {"title": {"terms": ["The Lighthouse at Mariner's Reach"]}, "author": {"terms": ["Thorvald"]}}},
+  {"id": "Q14", "category": "absent", "gt_id": "T12", "question": "My professor recommended Quantum Gardening for Beginners by Harold Pembrook. Can I check it out?",
+   "reference_args": {"title": {"terms": ["Quantum Gardening for Beginners"]}, "author": {"terms": ["Pembrook"]}}},
+  {"id": "Q15", "category": "absent", "gt_id": "T13", "question": "Looking for A Field Guide to the Moths of Stony Brook Harbor (Ashcombe). Is it here?",
+   "reference_args": {"title": {"terms": ["A Field Guide to the Moths of Stony Brook Harbor"]}, "author": {"terms": ["Ashcombe"]}}},
+  {"id": "Q16", "category": "absent", "gt_id": "T16", "question": "Statistical Mechanics of Beekeeping by Rufus Oyelaran - do you have a copy?",
+   "reference_args": {"title": {"terms": ["Statistical Mechanics of Beekeeping"]}, "author": {"terms": ["Oyelaran"]}}},
+  {"id": "Q17", "category": "absent", "gt_id": "T20", "question": "Can I get An Introduction to Lunar Agronomy by Desmond Caldwell-Reyes?",
+   "reference_args": {"title": {"terms": ["An Introduction to Lunar Agronomy"]}, "author": {"terms": ["Caldwell-Reyes"]}}},
+
+  {"id": "Q18", "category": "author_only", "gt_id": null, "question": "What books by Toni Morrison does the library have?",
+   "reference_args": {"author": {"terms": ["Morrison, Toni"]}, "resources_types": ["books"]}},
+  {"id": "Q19", "category": "author_only", "gt_id": null, "question": "Do you have anything by Rachel Carson?",
+   "reference_args": {"author": {"terms": ["Carson, Rachel"]}}},
+
+  {"id": "Q20", "category": "ambiguous_title", "gt_id": "T08", "question": "Do you have Beloved?",
+   "reference_args": {"title": {"terms": ["Beloved"]}}},
+
+  {"id": "Q21", "category": "topic", "gt_id": null, "question": "I'm writing a paper on coral reef bleaching. Can you find me some books?", "reference_args": null},
+  {"id": "Q22", "category": "topic", "gt_id": null, "question": "Find books about marine biology", "reference_args": null},
+  {"id": "Q23", "category": "topic", "gt_id": null, "question": "What does the library have on the history of Long Island?", "reference_args": null},
+  {"id": "Q24", "category": "topic", "gt_id": null, "question": "I need sources on machine learning fairness for a seminar.", "reference_args": null},
+  {"id": "Q25", "category": "topic", "gt_id": null, "question": "any good intro books on organic chemistry?", "reference_args": null},
+
+  {"id": "Q26", "category": "format_or_filter", "gt_id": "T01", "question": "Is there an ebook version of Pattern Recognition and Machine Learning by Bishop?",
+   "reference_args": {"title": {"terms": ["Pattern Recognition and Machine Learning"]}, "author": {"terms": ["Bishop"]}}},
+  {"id": "Q27", "category": "format_or_filter", "gt_id": null, "question": "Find me books on CRISPR published after 2020.", "reference_args": null},
+  {"id": "Q28", "category": "format_or_filter", "gt_id": "T06", "question": "Do you have a print copy of Silent Spring I can pick up?",
+   "reference_args": {"title": {"terms": ["Silent Spring"]}, "author": {"terms": ["Carson"]}}},
+
+  {"id": "Q29", "category": "reading_list", "gt_id": null, "question": "Can you check if the library has these for my class?\n1. Silent Spring by Rachel Carson\n2. The Double Helix by James Watson\n3. Quantum Gardening for Beginners by Harold Pembrook", "reference_args": null},
+  {"id": "Q30", "category": "reading_list", "gt_id": null, "question": "Reading list for PHI 108:\n- Kuhn, The Structure of Scientific Revolutions\n- Kahneman, Thinking, Fast and Slow\n- Darwin, On the Origin of Species\n- Thorvald, The Lighthouse at Mariner's Reach\nWhich of these can I get here?", "reference_args": null}
+ ]
+}

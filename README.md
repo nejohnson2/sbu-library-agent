@@ -1,6 +1,6 @@
 # Stony Brook University Libraries AI Agent
 
-A simple AI agent for Stony Brook University Libraries. It uses the **SBU NEXUS MCP server** (Clarivate) to search the catalog and look up library and account information, and optionally a local **PubMed MCP server** to search biomedical journal articles. The model runs either on your own machine through **Ollama** (gemma4 by default) or on the library's **LiteLLM gateway**. It is built with [Pydantic AI](https://ai.pydantic.dev) and comes with a browser chat interface.
+A simple AI agent for Stony Brook University Libraries. It uses the **SBU NEXUS MCP server** (Clarivate) to search the catalog and look up library and account information. The model runs either on your own machine through **Ollama** (gemma4 by default) or on the library's **LiteLLM gateway**. It is built with [Pydantic AI](https://ai.pydantic.dev) and comes with a browser chat interface.
 
 ## Requirements
 
@@ -10,7 +10,6 @@ A simple AI agent for Stony Brook University Libraries. It uses the **SBU NEXUS 
   - **local:** [Ollama](https://ollama.com) with the model pulled: `ollama pull gemma4`
   - **remote:** the LiteLLM gateway address and an API key (ask library IT)
 - A Stony Brook account for the NEXUS login
-- Optional, for PubMed: the [pubmed-mcp](https://github.com/aeghnnsw/pubmed-mcp) repo cloned and set up (see below)
 
 ## Setup
 
@@ -22,7 +21,6 @@ uv sync
 Then edit `.env`:
 - set `NEXUS_MCP_URL` to the NEXUS MCP server URL (ask the library for it)
 - to use the gateway, fill in `LITELLM_BASE_URL`, `LITELLM_API_KEY` and `LITELLM_MODEL`, and set `LLM=litellm`
-- to add PubMed, set `PUBMED_MCP_DIR` to the folder of the pubmed-mcp repo (see "PubMed server" below)
 
 ## Choosing the model
 
@@ -49,7 +47,7 @@ Open http://localhost:7860. The server runs until you press Ctrl+C.
 
 **First login:** the first message opens a browser tab with the SBU/Clarivate login. Sign in, then go back to the chat. The chat waits up to 5 minutes for you. The token is then saved in your Keychain (under "nexus-agent") and refreshed automatically, so later runs don't ask you to log in until it has gone unused for several days.
 
-To log in or check the connections without the chat, run `uv run python login.py`. It prints the NEXUS and PubMed tools.
+To log in or check the connection without the chat, run `uv run python login.py`. It prints the NEXUS tools.
 
 ## What the agent can do
 
@@ -61,28 +59,9 @@ To log in or check the connections without the chat, run `uv run python login.py
 | `alma_get_user_loans`, `alma_get_user_requests`, `alma_get_user_fees` | Your loans, requests and fines | |
 | `alma_renew_user_loan` | Renew a loan | **Yes** |
 | `alma_cancel_user_request` | Cancel a request | **Yes** |
-| `search_articles` (PubMed) | Search PubMed, returns PubMed IDs | |
-| `get_article_summaries` (PubMed) | Title, authors, journal and date for PubMed IDs | |
-| `download_article`, `download_articles_batch` (PubMed) | Abstract or full record for PubMed IDs | |
 | `current_time` (local) | Current date and time | |
 
 The two tools that change your library account pause and show **Approve / Deny** in the chat before anything is sent. The list is `NEEDS_APPROVAL` in `agent.py`.
-
-The PubMed tools are only present when `PUBMED_MCP_DIR` is set. The instructions tell the model to use PubMed for research-article questions, and to check the library's holdings with `primo_search` when asked whether an article is available here. Example: *"Find three recent PubMed articles on CRISPR in sickle cell disease and tell me if the library has the journals."*
-
-## PubMed server
-
-The PubMed tools come from a separate open-source MCP server, [aeghnnsw/pubmed-mcp](https://github.com/aeghnnsw/pubmed-mcp), which talks to NCBI's E-utilities. The agent starts it as a subprocess (stdio transport) using the Python in that repo's own `venv`, so nothing else needs to be running. To set it up:
-
-```bash
-cd ~/Projects
-git clone https://github.com/aeghnnsw/pubmed-mcp.git
-cd pubmed-mcp
-./setup.sh
-venv/bin/pip install "mcp[cli]<2"   # the repo needs MCP SDK 1.x; setup.sh installs 2.x, which breaks it
-```
-
-Then set `PUBMED_MCP_DIR=/path/to/pubmed-mcp` in this project's `.env`. Optionally copy that repo's `.env.example` to `.env` and add an NCBI API key and email, which raises NCBI's rate limit from 3 to 10 requests per second.
 
 ## Testing
 
@@ -139,18 +118,26 @@ Findings:
 - **Trust costs time, with one exception.** `qwen3:32b` (97%/100%, zero hallucinations, clean tool use) took 107 s per question on this laptop; `gemma4:26b` reached the same accuracy in 40 s, but only because it spends one round trip per question fixing its own tool call. `gpt-oss:20b` matched them at 93%/97% in 14 s with a mostly correct schema on the first call; its few rejected calls were invented parameters (`location`, `keyword`) rather than wrong shapes, and two trials died because Ollama itself failed to parse the model's tool-call JSON.
 - **No model fabricated a catalog link** when it had real tool results to work from; the fabricated-link check fired zero times across all models.
 
-Caveats: 20 titles and 3 seeded runs per model is a small sample, so read the Wilson intervals, not the point estimates. A handful of trials ended in infrastructure errors rather than model answers: one 5-minute timeout each for `gemma4:26b`, `qwen3:32b` and `llama3.1`, one NEXUS server error, and two Ollama tool-call parse failures for `gpt-oss:20b`. These count as incorrect in the table. The first `gpt-oss:20b` attempt failed entirely because a 13-month-old Ollama blob no longer loaded; re-pulling the model fixed it. Latency is a laptop number and is dominated by model size.
+Caveats: 20 titles and 3 seeded runs per model is a small sample, so read the Wilson intervals, not the point estimates. A handful of trials ended in infrastructure errors rather than model answers: one 5-minute timeout each for `gemma4:26b`, `qwen3:32b` and `llama3.1`, one NEXUS server error, and two Ollama tool-call parse failures for `gpt-oss:20b`. These count as incorrect in the table above. The first `gpt-oss:20b` attempt failed entirely because a 13-month-old Ollama blob no longer loaded; re-pulling the model fixed it. Latency is a laptop number and is dominated by model size.
+
+Changes since these results were produced (re-run `make analyze`, or a new sweep, to see their effect):
+
+- `make analyze` now leaves infrastructure failures (timeouts and Ollama/HTTP/network errors) out of the rates and reports them in an "Infra failures (excluded)" column, and `make bench` runs them again on resume.
+- The fabricated-link check now matches every Primo record id, not only `alma…` ids. It is computed when a trial runs, so it only affects new sweeps.
+- NEXUS tools now get two retries instead of one (`max_retries=2` in `agent.py`), which the benchmark shares with the agent. Models that fixed their tool call on a second retry (likely `gemma4:latest`, see above) will score higher in a new sweep.
+- The sweep ran with a PubMed MCP server connected (hence `llama3.2`'s PubMed calls above). PubMed has since been removed from the agent, so a new sweep will not reproduce these numbers exactly.
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `agent.py` | The agent: model connection, instructions, tools, NEXUS and PubMed connections |
+| `agent.py` | The agent: model connection, instructions, tools, NEXUS connection |
 | `auth.py` | NEXUS OAuth login and token storage |
 | `app.py` | Web chat interface |
-| `login.py` | Log in and list the NEXUS and PubMed tools from the terminal |
+| `login.py` | Log in and list the NEXUS tools from the terminal |
 | `eval.py` | Test questions |
 | `benchmark/` | Holdings benchmark: ground truth, runner, analysis, plots (see above) |
+| `fidelity/` | Search-fidelity traces: 30 chat questions, full capture of each run (tool calls, results, timing, answer); see `fidelity/README.md` |
 | `Makefile` | Benchmark pipeline targets |
 | `.env` | Settings (not committed; copy from `.env.example`) |
 
@@ -165,7 +152,6 @@ Caveats: 20 titles and 3 seeded runs per model is a small sample, so read the Wi
 | `LITELLM_API_KEY` | (blank) | API key for the LiteLLM gateway |
 | `LITELLM_MODEL` | (blank) | Model name on the gateway, e.g. `ai11-gpt-oss-20b` |
 | `NEXUS_MCP_URL` | (blank) | NEXUS MCP server URL. Leave blank to run without it |
-| `PUBMED_MCP_DIR` | (blank) | Folder of the pubmed-mcp repo. Leave blank to run without PubMed |
 | `PYDANTIC_AI_NO_BANNER` | `1` | Hides the Pydantic AI startup banner |
 
 ## Notes and workarounds
@@ -177,6 +163,7 @@ Caveats: 20 titles and 3 seeded runs per model is a small sample, so read the Wi
 - **Logging in again after a few days:** access tokens refresh automatically, but after several days without use the SSO refresh token expires and the browser login opens again.
 - **Models and tools:** the agent needs a model that is good at tool calling. On the LiteLLM gateway, `ai11-gpt-oss-20b` passed the tests, but `ai11-gemma4-12b` sent search details in the wrong format and NEXUS returned errors. `llama3.1` picked tools but passed bad details and sometimes printed tool calls as text. Local `gemma4` passed the same tests.
 - **One model class for both connections:** `agent.py` uses Pydantic AI's Ollama model class for the gateway too. LiteLLM speaks the same OpenAI-style API, and this was tested with `ai11-gpt-oss-20b`.
-- **PubMed server and MCP SDK versions:** this project uses FastMCP 4 / MCP SDK 2, but pubmed-mcp is written for SDK 1.x. Running it in its own `venv` with its own Python avoids the conflict, which is why `agent.py` passes an explicit interpreter to the stdio transport. The PubMed server's own messages go to `pubmed-server.log` in this folder (not committed); it contains a long but harmless validation warning that its older MCP library prints when this project's newer client connects.
+- **Tool retries (`max_retries=2` in `agent.py`):** some models send a badly formatted first tool call and fix it after seeing the error (see the benchmark), so NEXUS tools get two retries before a request fails.
+- **Starting without NEXUS:** if the NEXUS login server can't be reached at startup (offline, server down), the agent prints a warning and starts anyway; NEXUS requests fail until it is reachable again.
 - **Single user, local only:** the login opens a browser on the machine running the server. Sharing this with other people would need a different login setup.
 - You may see a warning that a store "is unstable". It comes from the token storage library and can be ignored.
