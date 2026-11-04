@@ -11,3 +11,9 @@ dependencies = [
     "uvicorn>=0.54.0",
     "websockets>=17.2",
 ]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+    "pandas>=3.1.1",
+]

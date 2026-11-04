@@ -137,6 +137,7 @@ Changes since these results were produced (re-run `make analyze`, or a new sweep
 | `login.py` | Log in and list the NEXUS tools from the terminal |
 | `eval.py` | Test questions |
 | `benchmark/` | Holdings benchmark: ground truth, runner, analysis, plots (see above) |
+| `research/mcp_explorer.ipynb` | Notebook for calling the NEXUS tools directly (no LLM) and inspecting results; calls logged to `research/calls.jsonl` (not committed) |
 | `fidelity/` | Search-fidelity traces: 30 chat questions, full capture of each run (tool calls, results, timing, answer); see `fidelity/README.md` |
 | `Makefile` | Benchmark pipeline targets |
 | `.env` | Settings (not committed; copy from `.env.example`) |
