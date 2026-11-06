@@ -61,6 +61,8 @@ To log in or check the connection without the chat, run `uv run python login.py`
 | `alma_cancel_user_request` | Cancel a request | **Yes** |
 | `current_time` (local) | Current date and time | |
 
+The full descriptions and argument schemas the servers send to the model are in [docs/mcp_tools.md](docs/mcp_tools.md); regenerate with `uv run python dump_tools.py`.
+
 The two tools that change your library account pause and show **Approve / Deny** in the chat before anything is sent. The list is `NEEDS_APPROVAL` in `agent.py`.
 
 ## Testing
@@ -135,6 +137,8 @@ Changes since these results were produced (re-run `make analyze`, or a new sweep
 | `auth.py` | NEXUS OAuth login and token storage |
 | `app.py` | Web chat interface |
 | `login.py` | Log in and list the NEXUS tools from the terminal |
+| `dump_tools.py` | Write every tool's description and argument schema, as the model sees them, to `docs/mcp_tools.md` |
+| `docs/mcp_tools.md` | The NEXUS server's own tool descriptions (`tools/list`), captured verbatim |
 | `eval.py` | Test questions |
 | `benchmark/` | Holdings benchmark: ground truth, runner, analysis, plots (see above) |
 | `research/mcp_explorer.ipynb` | Notebook for calling the NEXUS tools directly (no LLM) and inspecting results; calls logged to `research/calls.jsonl` (not committed) |
